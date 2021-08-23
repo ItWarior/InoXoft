@@ -3,18 +3,18 @@ const expressHbs = require('express-handlebars');
 const path = require('path');
 
 const { PORT } = require(path.join(__dirname, 'allConfigs', 'config.js'));
-const {getUsers, addUser} = require(path.join(__dirname,'logic.js'))
+const { getUsers, addUser } = require(path.join(__dirname, 'logic.js'))
 
 const app = express();
-const staticPath = path.join(__dirname, 'static');
+const WAY_TO_STATIC = path.join(__dirname, 'static');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(staticPath));
+app.use(express.static(WAY_TO_STATIC));
 
 app.set('view engine', '.hbs');
 app.engine('.hbs', expressHbs({ defaultLayout: false }));
-app.set('views', staticPath);
+app.set('views', WAY_TO_STATIC);
 
 app.get('/login', (req, res) => {
     res.render('sign-in')
@@ -30,7 +30,7 @@ app.post('/auth', async (req, res) => {
     let walid = true;
 
     users.forEach(user => {
-        if (user.email === email && +user.password === +password) {
+        if (user.email === email && user.password === password) {
             walid = false;
             res.render('user', { user: user, allUsers: users })
         }
@@ -56,10 +56,10 @@ app.post('/register', async (req, res) => {
     const user = users.find(user => user.email === newUser.email);
 
     if (user) {
-        res.status(404).end('There is the same user');
+        res.status(400).end('There is the same user');
         return
     }
-    
+
     users.push(newUser);
     await addUser(users);
 
