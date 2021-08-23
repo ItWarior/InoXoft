@@ -27,16 +27,16 @@ app.post('/auth', async (req, res) => {
     const { email, password } = req.body;
     const users = await getUsers();
 
-    let walid = true;
+    let valid = true;
 
     users.forEach(user => {
         if (user.email === email && user.password === password) {
-            walid = false;
+            valid = false;
             res.render('user', { user: user, allUsers: users })
         }
     });
 
-    if (walid) {
+    if (valid) {
         res.redirect('/sign-up')
         return
     }

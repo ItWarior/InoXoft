@@ -15,6 +15,5 @@ async function addUser(users) {
 }
 
 module.exports = {
-   getUsers: getUsers,
-   addUser: addUser
+   getUsers, addUser
 }
