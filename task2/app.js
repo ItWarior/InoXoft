@@ -2,7 +2,7 @@ const express = require('express');
 const expressHbs = require('express-handlebars');
 const path = require('path');
 
-const { PORT } = require(path.join(__dirname, 'allConfigs', 'config.js'));
+const { PORT } = require(path.join(__dirname, 'configs', 'config.js'));
 const { getUsers, addUser } = require(path.join(__dirname, 'logic.js'))
 
 const app = express();
@@ -32,7 +32,7 @@ app.post('/auth', async (req, res) => {
     users.forEach(user => {
         if (user.email === email && user.password === password) {
             valid = false;
-            res.render('user', { user: user, allUsers: users })
+            res.render('user', { user })
         }
     });
 
@@ -45,7 +45,7 @@ app.post('/auth', async (req, res) => {
 app.post('/seeAll', async (req, res) => {
 
     const users = await getUsers();
-    res.render('users', { allUsers: users })
+    res.render('users', { users })
 
 })
 
