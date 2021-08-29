@@ -4,10 +4,13 @@ const path = require('path');
 const WAY_TO_FILE_USERS = path.join(__dirname, '../', 'dbs', 'dbusers.json');
 
 async function getUsers() {
-   const users = await fs.readFile(WAY_TO_FILE_USERS);
-   const parse_users = (!users.toString()) ? [] : JSON.parse(users);
 
-   return parse_users;
+      const users = await fs.readFile(WAY_TO_FILE_USERS);
+      const parse_users = (!users.toString()) ? [] : JSON.parse(users);
+   
+      return parse_users;
+   
+
 }
 
 async function overwriteUsers(users) {
