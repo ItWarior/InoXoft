@@ -1,5 +1,7 @@
 const path = require('path');
 
+const OwnError = require(path.join(__dirname, '../', 'errors', 'errorHendler.js'));
+
 const {
    get_users_from_dbs,
    is_valid_user,
@@ -15,7 +17,7 @@ module.exports = {
          const users = await get_users_from_dbs();
 
          res.json(users);
-
+         
       } catch (e) {
 
          next(e);
