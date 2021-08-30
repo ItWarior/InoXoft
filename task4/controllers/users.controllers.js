@@ -1,6 +1,7 @@
 const path = require('path');
 
 const OwnError = require(path.join(__dirname, '../', 'errors', 'errorHendler.js'));
+const { Users } = require('../dbs');
 
 const {
    get_users_from_dbs,
@@ -13,25 +14,14 @@ module.exports = {
 
    get_all_users: async (req, res, next) => {
 
-      try {
-         const users = await get_users_from_dbs();
+      res.json(Users)
 
-         res.json(users);
-         
-      } catch (e) {
-
-         next(e);
-
-      }
    },
 
    get_user_by_id: async (req, res, next) => {
       try {
 
-         const { user_id } = req.params;
-         const users = await get_users_from_dbs();
-
-         res.json(users[user_id]);
+         res.json(req.user);
 
       } catch (e) {
 
@@ -43,19 +33,9 @@ module.exports = {
 
       try {
 
-         const newUser = (req.body);
+         const user = await Users.create(req.body);
 
-         const valid = await is_valid_user(newUser.email, newUser.password);
-
-         if (valid) {
-
-            res.end('There is the same user');
-            return
-
-         }
-         await add_user_to_dbs(newUser);
-
-         res.end("congratulations you have successfully registered");
+         res.json(user);
 
       } catch (e) {
 

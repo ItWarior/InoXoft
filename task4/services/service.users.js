@@ -1,14 +1,14 @@
 const fs = require('fs/promises');
 const path = require('path');
 
-const WAY_TO_FILE_USERS = path.join(__dirname, '../', 'dbs', 'dbusers.json');
+const {Users} = require('../dbs');
 
 async function get_users_from_dbs() {
 
-      const users = await fs.readFile(WAY_TO_FILE_USERS);
-      const parse_users = (!users.toString()) ? [] : JSON.parse(users);
+      // const users = await fs.readFile(WAY_TO_FILE_USERS);
+      // const parse_users = (!users.toString()) ? [] : JSON.parse(users);
 
-      return parse_users;
+      return Users;
 
 }
 
