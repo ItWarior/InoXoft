@@ -1,8 +1,7 @@
 const router = require('express').Router();
-const path = require('path');
 
-const AUTH_CONTROLLERS = require(path.join(__dirname, '../', 'controllers', 'auth.controllers.js'));
+const { authController } = require('../controllers');
 
-router.post('/', AUTH_CONTROLLERS.auth);
+router.post('/', authController.auth);
 
 module.exports = router;
