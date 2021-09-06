@@ -1,20 +1,25 @@
 {
-  "name": "task2",
+  "name": "inoxoft",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startNp2": "npx pm2 start task6/app.js --watch",
+    "endNp2": "npx pm2 kill",
+    "start": "nodemon task6/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.3.3",
     "joi": "^17.4.2",
     "mongoose": "^6.0.2"
+
   },
   "devDependencies": {
     "eslint": "^7.32.0",
