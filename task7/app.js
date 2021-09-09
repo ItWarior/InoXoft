@@ -1,7 +1,11 @@
-/* eslint-disable no-console */
-// 1. Оптимізувати код мідлварами як на минулому занятті
-// 2. Налаштувати pm2 + .env
-// Так?
+/* eslint-disable max-len */
+// Вам потрібно зробив флов аутентифікації
+
+// Всі ендпоінти, які на вашу думку потребують від юзера бути авторизованим мають бути закриті токенами.
+// Рефреш токен реалізувати самим (якщо вас не було в кінці) і оптимізувати мій алгоритм або написати свій.
+// Якщо ви робите видалення\оновлення юзера, то це робити має тільки той юзер якого ви видаляєте. Не можу юзер 10 видалити юзера 25. Тільки юзер 10 видаляє юзера 10.
+// При створенні другої сутності (машинка, книжка, хатка)  має робитись привязка до юзера хто її створив
+// При видаленні\оновленні вашої другої сутності (машинка, книжка, хатка) так само реалзівувати перевірку, що робити це має право лише юзер який її робив
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -17,10 +21,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const { usersRouter, carsRouter } = require('./routers');
+const { authRouter, usersRouter, carsRouter } = require('./routers');
 
 app.use('/users', usersRouter);
-// app.use('/auth', authRouter);
+app.use('/auth', authRouter);
 app.use('/cars', carsRouter);
 app.use(_mainErrorHandler);
 

@@ -3,11 +3,11 @@ const OwnError = require('../errors/errorHendler');
 const car_validator = require('../validators/cars.validator');
 
 module.exports = {
-    is_car_by_dynemic_params: (vin_code, search_in) => async (req, res, next) => {
+    is_car_by_dynemic_params: (vin_code, search_in, db_field = vin_code) => async (req, res, next) => {
         try {
             const value = req[search_in][vin_code];
 
-            const car = await Cars.findOne({ [vin_code]: value });
+            const car = await Cars.findOne({ [db_field]: value });
 
             req.car = car;
             next();

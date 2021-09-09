@@ -3,11 +3,11 @@ const { is_there_same_email } = require('../services/user.service');
 const user_validator = require('../validators/user.validator');
 
 module.exports = {
-    is_user_by_dynamic_params: (dynamic_param, search_in) => async (req, res, next) => {
+    is_user_by_dynamic_params: (dynamic_param, search_in, db_field = dynamic_param) => async (req, res, next) => {
         try {
             const value = req[search_in][dynamic_param];
 
-            const user = await is_there_same_email(dynamic_param, value);
+            const user = await is_there_same_email(db_field, value);
 
             req.user = user;
             next();

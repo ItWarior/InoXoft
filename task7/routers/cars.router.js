@@ -8,8 +8,8 @@ router.get(
     carsController.get_all_cars
 );
 router.get(
-    '/find/:vin_code',
-    carsMiddlewares.is_car_by_dynemic_params('vin_code', 'params'),
+    '/find/:car_id',
+    carsMiddlewares.is_car_by_dynemic_params('car_id', 'params', '_id'),
     carsController.get_car_by_code
 );
 router.post(
@@ -19,8 +19,8 @@ router.post(
     carsController.add_new_car
 );
 router.delete(
-    '/drop/:vin_code',
-    carsMiddlewares.is_car_by_dynemic_params('vin_code', 'params'),
+    '/drop/:car_id',
+    carsMiddlewares.is_car_by_dynemic_params('car_id', 'params', '_id'),
     carsController.drop_car
 );
 router.put('/update/:vin_code',
