@@ -26,17 +26,16 @@ const create_user_validator = Joi.object({
 
 });
 
-const update_user_validator = Joi.object({
+const login_user_validator = Joi.object({
 
-    name: Joi.string().alphanum().min(4).max(30)
-        .trim(),
-    email: Joi.string().regex(CONSTANTS.EMAIL_REGEXP).trim()
+    email: Joi.string().regex(CONSTANTS.EMAIL_REGEXP).trim().required(),
+    password: Joi.string().regex(CONSTANTS.PASSWORD_REGEXP).trim().required()
 
 });
 
 module.exports = {
 
     create_user_validator,
-    update_user_validator
+    login_user_validator
 
 };

@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
 
+const { DBS_TABLES_ENAM } = require('../configs');
+
 const carSchema = new Schema({
 
     model: {
@@ -26,4 +28,4 @@ const carSchema = new Schema({
 
 }, { timestamps: true });
 
-module.exports = model('cars', carSchema);
+module.exports = model(DBS_TABLES_ENAM.CAR, carSchema);

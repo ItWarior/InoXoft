@@ -1,6 +1,7 @@
 module.exports = {
 
     Users: require('./Users'),
-    Cars: require('./Cars')
+    Cars: require('./Cars'),
+    OAuth: require('./OAuth')
 
 };

@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 const { Users } = require('../dbs');
 const OwnError = require('../errors/errorHendler');
 
-async function is_there_same_email(key, value) {
-    const user = await Users.findOne({ [key]: value });
+async function is_there_same_email(email, value) {
+    const user = await Users.findOne({ [email]: value }).select('+password');
 
     return user;
 }
