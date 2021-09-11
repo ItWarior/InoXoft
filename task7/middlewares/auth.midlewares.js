@@ -11,7 +11,6 @@ module.exports = {
             if (!token) {
                 throw new OwnError(401, 'No token');
             }
-
             JWT_SERVICE.verify_tokens(token);
             const faund_db_token = await OAuth.findOne({ access_token: token }).populate(DBS_TABLES_ENAM.USER);
 

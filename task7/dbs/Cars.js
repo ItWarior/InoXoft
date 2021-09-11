@@ -24,6 +24,11 @@ const carSchema = new Schema({
         type: String,
         trim: true,
         unique: true
+    },
+    [DBS_TABLES_ENAM.USER]: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: DBS_TABLES_ENAM.USER
     }
 
 }, { timestamps: true });

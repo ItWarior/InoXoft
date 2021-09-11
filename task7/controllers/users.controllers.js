@@ -4,6 +4,7 @@ const OwnError = require('../errors/errorHendler');
 const user_util = require('../util/user.util');
 
 const { USER_SERVISE } = require('../services');
+const { USER_VALIDATOR } = require('../validators');
 
 module.exports = {
 
@@ -61,6 +62,22 @@ module.exports = {
 
             if (user._id.toString() !== curent_user._id.toString()) {
                 throw new OwnError(400, 'You haven\'t rights update enather users');
+            }
+
+            // eslint-disable-next-line no-prototype-builtins
+            if (new_info.hasOwnProperty('password')) {
+                const { error, value } = USER_VALIDATOR.password_validator.validate(new_info);
+
+                if (error) {
+                    throw new OwnError(400, error.details[0].message);
+                }
+                const hash_password = await USER_SERVISE.hash(value.password);
+
+                const hach_info = { ...value, password: hash_password };
+
+                const update_user = await Users.updateOne(user, hach_info);
+                res.json(update_user);
+                return;
             }
 
             const update_user = await Users.updateOne(user, new_info);
