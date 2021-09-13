@@ -3,8 +3,9 @@ const { Users } = require('../dbs');
 const OwnError = require('../errors/errorHendler');
 const user_util = require('../util/user.util');
 
-const { USER_SERVISE } = require('../services');
+const { EMAIL_SERVICE, USER_SERVISE } = require('../services');
 const { USER_VALIDATOR } = require('../validators');
+const { EMAIL_ACTIONS_ENAM } = require('../configs');
 
 module.exports = {
 
@@ -16,9 +17,11 @@ module.exports = {
         }
     },
 
-    get_user_by_id: (req, res, next) => {
+    get_user_by_id: async (req, res, next) => {
         try {
             const { user } = req;
+
+            await EMAIL_SERVICE.send_mail('tarasbennet@gmail.com', EMAIL_ACTIONS_ENAM.WELCOM, { user_name: 'Igor' });
 
             if (!user) {
                 throw new OwnError(404, 'user is not faund');
@@ -39,6 +42,8 @@ module.exports = {
             if (user) {
                 throw new OwnError(409, 'There is the same user');
             }
+
+            await EMAIL_SERVICE.send_mail('tarasbennet@gmail.com', EMAIL_ACTIONS_ENAM.REGISTRATION, { user_name: new_user.name });
 
             const hash_password = await USER_SERVISE.hash(new_user.password);
 

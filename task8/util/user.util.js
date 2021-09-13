@@ -13,6 +13,5 @@ const user_normalizator = (user_to_normalize) => {
 };
 
 module.exports = {
-
     user_normalizator
 };

@@ -3,7 +3,6 @@ const { Schema, model } = require('mongoose');
 const { DBS_TABLES_ENAM } = require('../configs');
 
 const carSchema = new Schema({
-
     model: {
         type: String,
         require: true,
@@ -20,7 +19,6 @@ const carSchema = new Schema({
         trim: true
     },
     vin_code: {
-
         type: String,
         trim: true,
         unique: true

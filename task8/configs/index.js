@@ -1,8 +1,7 @@
 module.exports = {
-
     CONFIG: require('./config'),
     CONSTANTS: require('./constants'),
-    USER_ROLES: require('./user-roles.enam'),
-    DBS_TABLES_ENAM: require('./dbsTablesEnam')
-
+    DBS_TABLES_ENAM: require('./dbsTablesEnam'),
+    EMAIL_ACTIONS_ENAM: require('./emailActions.enam'),
+    USER_ROLES: require('./user-roles.enam')
 };

@@ -1,0 +1,11 @@
+extends container
+block content 
+    div#conteiner
+        h1 
+            | HELO DEAR #{user_name}
+        p   
+            | We are happy invite you to join our community
+        p   
+            | Please click the button to confirm the mail
+        button 
+            a(href = frontend_url) Confirm

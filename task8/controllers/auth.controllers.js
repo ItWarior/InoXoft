@@ -9,21 +9,20 @@ module.exports = {
         try {
             const { user, log_pas_data } = req;
 
+            if (!user) {
+                res.json('User is not found');
+            }
+
             await USER_SERVISE.compare(log_pas_data.password, user.password);
 
             const new_token_pair = JWT_SERVICE.generete_token_pair();
 
             await OAuth.create({ ...new_token_pair, user: user._id });
 
-            if (user) {
-                res.json({
-                    ...new_token_pair,
-                    norm_user: util.user_normalizator(user)
-                });
-                return;
-            }
-
-            res.json('User not exist');
+            res.json({
+                ...new_token_pair,
+                norm_user: util.user_normalizator(user)
+            });
         } catch (e) {
             next(e);
         }
