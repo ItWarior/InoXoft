@@ -25,5 +25,10 @@ router.post(
     AUTH_MIDLEWARES.check_refresh_token,
     authController.refresh_token
 );
+router.post(
+    '/password/forgot_pass/send',
+    USERS_MIDLEWARES.is_user_by_dynamic_params('email', 'body'),
+    authController.sand_email_forgot_password
+);
 
 module.exports = router;

@@ -21,7 +21,7 @@ module.exports = {
         try {
             const { user } = req;
 
-            await EMAIL_SERVICE.send_mail('tarasbennet@gmail.com', EMAIL_ACTIONS_ENAM.WELCOM, { user_name: 'Igor' });
+            await EMAIL_SERVICE.send_mail(user.email, EMAIL_ACTIONS_ENAM.WELCOM, { user_name: user.name });
 
             if (!user) {
                 throw new OwnError(404, 'user is not faund');
@@ -43,7 +43,7 @@ module.exports = {
                 throw new OwnError(409, 'There is the same user');
             }
 
-            await EMAIL_SERVICE.send_mail('tarasbennet@gmail.com', EMAIL_ACTIONS_ENAM.REGISTRATION, { user_name: new_user.name });
+            await EMAIL_SERVICE.send_mail(new_user.email, EMAIL_ACTIONS_ENAM.REGISTRATION, { user_name: new_user.name });
 
             const hash_password = await USER_SERVISE.hash(new_user.password);
 

@@ -65,5 +65,13 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+    sand_email_forgot_password: (req, res, next) => {
+        try {
+            // const { user } = req;
+            // // console.log(user);
+        } catch (e) {
+            next(e);
+        }
     }
 };
