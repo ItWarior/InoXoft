@@ -76,7 +76,7 @@ module.exports = {
             await ActionTocen.create({ action_token, user: user._id });
 
             await EMAIL_SERVICE.send_mail(
-                'tarasbennet@gmail.com',
+                user.email,
                 EMAIL_ACTIONS_ENAM.FORGOT_PASSWORD,
                 { forgot_password_url: `https://inoxoft.com/forgot?token=${action_token}` }
             );
