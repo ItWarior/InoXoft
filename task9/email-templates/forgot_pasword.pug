@@ -1,0 +1,11 @@
+extends container
+block content 
+    div#conteiner
+        h1 
+            | HELO DEAR #{user_name}
+        p   
+            | We sended you the mesage to confirm your new password
+        p   
+            | Please click the button under for confirm
+        button 
+            a(href = forgot_password_url) Confirm
