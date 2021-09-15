@@ -30,5 +30,11 @@ router.post(
     USERS_MIDLEWARES.is_user_by_dynamic_params('email', 'body'),
     authController.sand_email_forgot_password
 );
+router.post(
+    '/password/forgot_pass/set',
+    AUTH_MIDLEWARES.is_new_password_tocen_valid,
+    AUTH_MIDLEWARES.check_action_token,
+    authController.update_user_password
+);
 
 module.exports = router;

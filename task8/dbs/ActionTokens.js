@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const { DBS_TABLES_ENAM } = require('../configs');
 
 const Forgot_pass_shema = new Schema({
-    access_token: {
+    action_token: {
         type: String,
         require: true
     },

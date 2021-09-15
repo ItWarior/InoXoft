@@ -35,8 +35,14 @@ const password_validator = Joi.object({
     email: Joi.string().regex(CONSTANTS.EMAIL_REGEXP).trim()
 });
 
+const forgot_pass_validator = Joi.object({
+
+    new_password: Joi.string().regex(CONSTANTS.PASSWORD_REGEXP).trim().required(),
+    action_token: Joi.string().required().trim()
+});
 module.exports = {
     create_user_validator,
     login_user_validator,
-    password_validator
+    password_validator,
+    forgot_pass_validator
 };
