@@ -1,8 +1,8 @@
-const { OAuth } = require('../dbs');
+const { ActionTocen, OAuth } = require('../dbs');
 
 const util = require('../util/user.util');
-const { USER_SERVISE, JWT_SERVICE } = require('../services');
-const { CONSTANTS } = require('../configs');
+const { EMAIL_SERVICE, USER_SERVISE, JWT_SERVICE } = require('../services');
+const { EMAIL_ACTIONS_ENAM, CONSTANTS } = require('../configs');
 
 module.exports = {
     login: async (req, res, next) => {
@@ -66,10 +66,21 @@ module.exports = {
             next(e);
         }
     },
-    sand_email_forgot_password: (req, res, next) => {
+    sand_email_forgot_password: async (req, res, next) => {
         try {
-            // const { user } = req;
-            // // console.log(user);
+            const { user } = req;
+
+            const action_token = JWT_SERVICE.generete_action_token(user);
+
+            await ActionTocen.create({ action_token, user: user._id });
+
+            await EMAIL_SERVICE.send_mail(
+                'tarasbennet@gmail.com',
+                EMAIL_ACTIONS_ENAM.FORGOT_PASSWORD,
+                { forgot_password_url: `https://inoxoft.com/forgot?token=${action_token}` }
+            );
+
+            res.json('Email was send');
         } catch (e) {
             next(e);
         }
