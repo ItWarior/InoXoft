@@ -5,7 +5,7 @@ const user_util = require('../util/user.util');
 
 const { EMAIL_SERVICE, USER_SERVISE } = require('../services');
 const { USER_VALIDATOR } = require('../validators');
-const { EMAIL_ACTIONS_ENAM } = require('../configs');
+const { EMAIL_ACTIONS_ENAM, USER_ROLES } = require('../configs');
 
 module.exports = {
 
@@ -99,13 +99,13 @@ module.exports = {
             const { user, curent_user } = req;
 
             const admission_check_user = user._id.toString() !== curent_user._id.toString();
-            const admission_check_admin = curent_user.role !== 'admin';
+            const admission_check_admin = curent_user.role !== USER_ROLES.ADMIN;
 
             if (!user) {
                 throw new OwnError(404, 'User is not faund');
             }
 
-            if ((admission_check_user && admission_check_admin) || curent_user.role !== 'admin') {
+            if ((admission_check_user && admission_check_admin) || curent_user.role !== USER_ROLES.ADMIN) {
                 throw new OwnError(400, 'You haven\'t rights delete enather users');
             }
 
@@ -133,7 +133,7 @@ module.exports = {
         try {
             const { user, curent_user } = req;
 
-            if (curent_user.get_role() !== 'admin') {
+            if (curent_user.get_role() !== USER_ROLES.ADMIN) {
                 throw new OwnError(401, 'You are not admin');
             }
             if (!user) {
@@ -144,7 +144,7 @@ module.exports = {
             await Users.updateOne(user, new_admin);
 
             await EMAIL_SERVICE.send_mail(
-                'tarasbennet@gmail.com',
+                user.email,
                 EMAIL_ACTIONS_ENAM.FOR_NEW_ADMIN,
                 {
                     user_name: user.name,
@@ -154,7 +154,7 @@ module.exports = {
                 }
             );
 
-            res.json(`${user.name} now admin`);
+            res.json(`${user.name} is admin now`);
         } catch (e) {
             next(e);
         }
