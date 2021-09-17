@@ -1,6 +1,6 @@
 const { OAuth, ActionTocen } = require('../dbs');
 const OwnError = require('../errors/errorHendler');
-const { CONSTANTS, DBS_TABLES_ENAM } = require('../configs');
+const { CONSTANTS } = require('../configs');
 const { JWT_SERVICE } = require('../services');
 const { USER_VALIDATOR } = require('../validators');
 
@@ -13,7 +13,7 @@ module.exports = {
                 throw new OwnError(401, 'No token');
             }
             JWT_SERVICE.verify_tokens(token);
-            const faund_db_token = await OAuth.findOne({ access_token: token }).populate(DBS_TABLES_ENAM.USER);
+            const faund_db_token = await OAuth.findOne({ access_token: token });
 
             if (!faund_db_token) {
                 throw new OwnError(401, 'Invalid token');
@@ -33,7 +33,7 @@ module.exports = {
             }
 
             JWT_SERVICE.verify_tokens(token, 'refresh_token');
-            const faund_db_token = await OAuth.findOne({ refresh_token: token }).populate(DBS_TABLES_ENAM.USER);
+            const faund_db_token = await OAuth.findOne({ refresh_token: token });
 
             if (!faund_db_token) {
                 throw new OwnError(401, 'Invalid token');
@@ -48,7 +48,7 @@ module.exports = {
         try {
             const { new_password, action_token } = req.body;
 
-            const faund_db_token = await ActionTocen.findOne({ action_token }).populate(DBS_TABLES_ENAM.USER);
+            const faund_db_token = await ActionTocen.findOne({ action_token });
 
             req.faund_db_token = faund_db_token;
             req.new_password = new_password;

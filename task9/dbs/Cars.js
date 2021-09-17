@@ -29,6 +29,6 @@ const carSchema = new Schema({
         ref: DBS_TABLES_ENAM.USER
     }
 
-}, { timestamps: true });
+}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
 module.exports = model(DBS_TABLES_ENAM.CAR, carSchema);

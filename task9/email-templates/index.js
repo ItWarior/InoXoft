@@ -16,6 +16,14 @@ module.exports = {
     [EMAIL_ACTIONS_ENAM.FORGOT_PASSWORD]: {
         templeate_name: 'forgot_pasword',
         subject: 'For actiwation new password'
+    },
+    [EMAIL_ACTIONS_ENAM.DELETED_ACOUNT]: {
+        templeate_name: 'deleteAcount',
+        subject: 'For information'
+    },
+    [EMAIL_ACTIONS_ENAM.FOR_NEW_ADMIN]: {
+        templeate_name: 'forNewAdmin',
+        subject: 'For information'
     }
 
 };

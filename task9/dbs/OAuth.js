@@ -16,6 +16,10 @@ const OAuth_shema = new Schema({
         required: true,
         ref: DBS_TABLES_ENAM.USER
     }
-}, { timestamps: true });
+}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+OAuth_shema.pre('findOne', function() {
+    this.populate(DBS_TABLES_ENAM.USER);
+});
 
 module.exports = model(DBS_TABLES_ENAM.OAUTH, OAuth_shema);

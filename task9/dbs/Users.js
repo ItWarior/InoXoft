@@ -32,6 +32,16 @@ const userSchema = new Schema({
         enum: Object.values(USER_ROLES)
     }
 
-}, { timestamps: true });
+}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+userSchema.virtual('fullName').get(function() {
+    return `${this.name} ${this.email}`;
+});
+
+userSchema.methods = {
+    get_role() {
+        return this.role;
+    }
+};
 
 module.exports = model(DBS_TABLES_ENAM.USER, userSchema);

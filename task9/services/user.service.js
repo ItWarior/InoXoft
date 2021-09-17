@@ -5,7 +5,6 @@ const OwnError = require('../errors/errorHendler');
 
 async function is_there_same_email(email, value) {
     const user = await Users.findOne({ [email]: value }).select('+password');
-
     return user;
 }
 

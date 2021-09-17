@@ -39,15 +39,18 @@ module.exports = {
             const { user } = req;
             const new_user = req.body;
 
+            const length_bds = await Users.collection.count();
+
             if (user) {
                 throw new OwnError(409, 'There is the same user');
             }
-
-            await EMAIL_SERVICE.send_mail(new_user.email, EMAIL_ACTIONS_ENAM.REGISTRATION, { user_name: new_user.name });
-
+            if (length_bds === 0) {
+                new_user.role = 'admin';
+            }
             const hash_password = await USER_SERVISE.hash(new_user.password);
 
             const created_user = await Users.create({ ...new_user, password: hash_password });
+            await EMAIL_SERVICE.send_mail(new_user.email, EMAIL_ACTIONS_ENAM.REGISTRATION, { user_name: new_user.name });
 
             const normalizated_user = user_util.user_normalizator(created_user);
 
@@ -71,7 +74,7 @@ module.exports = {
 
             // eslint-disable-next-line no-prototype-builtins
             if (new_info.hasOwnProperty('password')) {
-                const { error, value } = USER_VALIDATOR.password_validator.validate(new_info);
+                const { error, value } = USER_VALIDATOR.update_validator.validate(new_info);
 
                 if (error) {
                     throw new OwnError(400, error.details[0].message);
@@ -95,17 +98,63 @@ module.exports = {
         try {
             const { user, curent_user } = req;
 
+            const admission_check_user = user._id.toString() !== curent_user._id.toString();
+            const admission_check_admin = curent_user.role !== 'admin';
+
             if (!user) {
                 throw new OwnError(404, 'User is not faund');
             }
 
-            if (user._id.toString() !== curent_user._id.toString()) {
+            if ((admission_check_user && admission_check_admin) || curent_user.role !== 'admin') {
                 throw new OwnError(400, 'You haven\'t rights delete enather users');
             }
 
             await Users.deleteOne({ _id: user._id });
 
+            await EMAIL_SERVICE.send_mail(
+                user.email,
+                EMAIL_ACTIONS_ENAM.DELETED_ACOUNT,
+                {
+                    user_name: user.name,
+                    curent_user_name: curent_user.name,
+                    curent_user_role: curent_user.role,
+
+                }
+            );
+
+            await Users.deleteOne({ _id: user._id });
+
             res.json('You delete your account');
+        } catch (e) {
+            next(e);
+        }
+    },
+    update_user_to_admin: async (req, res, next) => {
+        try {
+            const { user, curent_user } = req;
+
+            if (curent_user.get_role() !== 'admin') {
+                throw new OwnError(401, 'You are not admin');
+            }
+            if (!user) {
+                throw new OwnError(404, 'User is not faund');
+            }
+            const new_admin = { user, role: curent_user.role };
+
+            await Users.updateOne(user, new_admin);
+
+            await EMAIL_SERVICE.send_mail(
+                'tarasbennet@gmail.com',
+                EMAIL_ACTIONS_ENAM.FOR_NEW_ADMIN,
+                {
+                    user_name: user.name,
+                    curent_user_name: curent_user.name,
+                    curent_user_role: curent_user.role,
+
+                }
+            );
+
+            res.json(`${user.name} now admin`);
         } catch (e) {
             next(e);
         }

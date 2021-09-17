@@ -13,6 +13,10 @@ const Forgot_pass_shema = new Schema({
         ref: DBS_TABLES_ENAM.USER
     }
 
-}, { timestamps: true });
+}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+Forgot_pass_shema.pre('findOne', function() {
+    this.populate(DBS_TABLES_ENAM.USER);
+});
 
 module.exports = model(DBS_TABLES_ENAM.ACTION_TOKEN, Forgot_pass_shema);
